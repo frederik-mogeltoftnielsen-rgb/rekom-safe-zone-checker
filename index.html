@@ -183,7 +183,7 @@
                                         <svg className="w-full h-full" viewBox="0 0 100 177.7" preserveAspectRatio="none">
                                             <defs>
                                                 <mask id="sz-mask">
-                                                    <rect width="100" height="177.7" fill="white" />
+                                                    <rect width="100%" height="177.7" fill="white" />
                                                     <rect 
                                                        x={zones.left} 
                                                        y={zones.top} 
@@ -202,16 +202,9 @@
                                                     )}
                                                 </mask>
                                             </defs>
-                                            <rect width="100" height="177.7" fill="#E6BD71" fillOpacity="0.45" mask="url(#sz-mask)" />
+                                            <rect width="100%" height="177.7" fill="#E6BD71" fillOpacity="0.45" mask="url(#sz-mask)" />
                                         </svg>
                                     </div>
-
-                                    <button 
-                                        onClick={(e) => { e.stopPropagation(); setFile(null); }}
-                                        className="absolute top-5 right-5 z-30 bg-black/70 backdrop-blur-2xl p-2 rounded-full hover:bg-red-600 transition-all duration-300 shadow-xl"
-                                    >
-                                        <Icon name="x" size={14} className="text-white" />
-                                    </button>
                                 </>
                             )}
                         </div>
@@ -234,7 +227,7 @@
                             <h3 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
                                 <Icon name="help-circle" size={20} /> Hvad er safe zone?
                             </h3>
-                            <p className="text-[13px] leading-relaxed font-light text-[#E6BD71]">
+                            <p className="text-[13px] leading-relaxed font-light text-white/95">
                                 En safe zone på Meta, Snapchat og TikTok er det område i dit annonceformat, hvor tekst og vigtige elementer sikkert kan placeres uden at blive dækket af UI-elementer som brugernavn, CTA-knapper, likes eller captions.<br/><br/>
                                 For at sikre korrekt visning på stories og reels skal det uploadede content være i <strong>9:16-format</strong>.
                             </p>
@@ -283,7 +276,7 @@
                                     "Hold vigtigt indhold i de klare områder.",
                                     "Undgå grafik i de gyldne zoner."
                                 ].map((text, i) => (
-                                    <li key={i} className="flex gap-4 items-start text-[13px] leading-snug font-light text-[#E6BD71]">
+                                    <li key={i} className="flex gap-4 items-start text-[13px] leading-snug font-light text-white/95">
                                         <span className="w-5 h-5 rounded-full border border-[#E6BD71]/30 flex items-center justify-center text-[9px] font-black shrink-0 text-[#E6BD71] mt-0.5">
                                             {i + 1}
                                         </span>
