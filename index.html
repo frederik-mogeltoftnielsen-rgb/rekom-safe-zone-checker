@@ -89,7 +89,7 @@
                 </header>
 
                 {/* Main Content Area */}
-                <main className="flex-grow flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-24 px-6 max-w-7xl mx-auto w-full pb-20">
+                <main className="flex-grow flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12 lg:gap-24 px-6 max-w-7xl mx-auto w-full pb-20">
                     
                     {/* Venstre Side: Preview Område */}
                     <div className="flex flex-col items-center w-full max-w-[380px] animate-fade-in" style={{ animationDelay: '0.1s' }}>
@@ -152,8 +152,18 @@
                     {/* Højre Side: Sidebar Kort */}
                     <div className="w-full max-w-[360px] flex flex-col gap-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                         
-                        {/* Kort 1: Platform */}
-                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8">
+                        {/* Kort 1: Hvad er safe zone? */}
+                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-sm">
+                            <h3 className="text-[10px] tracking-[0.2em] font-black mb-4 flex items-center gap-3 uppercase opacity-30">
+                                <Icon name="help-circle" size={14} /> Hvad er safe zone?
+                            </h3>
+                            <p className="text-[12px] opacity-70 leading-relaxed font-medium">
+                                En safe zone på Meta, Snapchat og TikTok er det område i dit annonceformat, hvor tekst og vigtige elementer sikkert kan placeres uden at blive dækket af UI-elementer som brugernavn, knapper eller captions.
+                            </p>
+                        </div>
+
+                        {/* Kort 2: Platform */}
+                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-sm">
                             <h3 className="text-[10px] tracking-[0.2em] font-black mb-6 flex items-center gap-3 uppercase opacity-30">
                                 <Icon name="smartphone" size={14} /> Vælg Platform
                             </h3>
@@ -163,7 +173,7 @@
                                     <button 
                                         key={p}
                                         onClick={() => setPlatform(p)}
-                                        className={`py-3 rounded-xl font-bold text-[10px] transition-all duration-300 uppercase tracking-widest ${platform === p ? 'bg-[#E6BD71] text-[#16322D] shadow-lg' : 'opacity-30 hover:opacity-100 hover:bg-white/5'}`}
+                                        className={`py-3 rounded-xl font-bold text-[10px] transition-all duration-300 uppercase tracking-widest ${platform === p ? 'bg-[#E6BD71] text-[#16322D] shadow-lg scale-[1.02]' : 'opacity-30 hover:opacity-100 hover:bg-white/5'}`}
                                     >
                                         {p}
                                     </button>
@@ -176,7 +186,7 @@
                                         <button 
                                             key={sub}
                                             onClick={() => setSubFormat(sub)}
-                                            className={`flex-1 py-2.5 rounded-xl font-bold text-[9px] border transition-all duration-300 uppercase tracking-widest ${subFormat === sub ? 'border-[#E6BD71] text-[#E6BD71] bg-[#E6BD71]/10' : 'border-white/10 opacity-30 hover:opacity-100'}`}
+                                            className={`flex-1 py-2.5 rounded-xl font-bold text-[9px] border transition-all duration-300 uppercase tracking-widest ${subFormat === sub ? 'border-[#E6BD71] text-[#E6BD71] bg-[#E6BD71]/10 shadow-[0_0_15px_rgba(230,189,113,0.1)]' : 'border-white/10 opacity-30 hover:opacity-100'}`}
                                         >
                                             {sub}
                                         </button>
@@ -185,23 +195,35 @@
                             )}
                         </div>
 
-                        {/* Kort 2: Info */}
-                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8">
-                            <h3 className="text-[10px] tracking-[0.2em] font-black mb-4 flex items-center gap-3 uppercase opacity-30">
-                                <Icon name="help-circle" size={14} /> Info
+                        {/* Kort 3: Sådan gør du */}
+                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-sm">
+                            <h3 className="text-[10px] tracking-[0.2em] font-black mb-5 flex items-center gap-3 uppercase opacity-30">
+                                <Icon name="info" size={14} /> Sådan gør du
                             </h3>
-                            <p className="text-[12px] opacity-60 leading-relaxed font-medium">
-                                Sørg for at placere tekst, logoer og vigtige elementer inden for de klare områder. De gyldne zoner viser hvor ikoner og tekst dækker dit indhold.
-                            </p>
+                            <ul className="space-y-4">
+                                {[
+                                    "Upload dit indhold (MP4, JPG, PNG).",
+                                    "Vælg det rigtige format for din platform.",
+                                    "Tjek guld-zonerne for UI-elementer.",
+                                    "Hold vigtigt indhold i de klare områder."
+                                ].map((text, i) => (
+                                    <li key={i} className="flex gap-4 items-start text-[11px] opacity-60 leading-snug">
+                                        <span className="w-5 h-5 rounded-full border border-[#E6BD71]/20 flex items-center justify-center text-[9px] font-black shrink-0 mt-0.5">
+                                            {i + 1}
+                                        </span>
+                                        {text}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
 
                         {file && (
                             <button
                                 onClick={() => fileInputRef.current?.click()}
-                                className="w-full py-6 rounded-[2rem] font-black flex items-center justify-center gap-4 bg-[#E6BD71] text-[#16322D] text-[12px] uppercase tracking-[0.2em] shadow-xl hover:brightness-110 active:scale-95 transition-all duration-300"
+                                className="w-full py-6 rounded-[2rem] font-black flex items-center justify-center gap-4 bg-[#E6BD71] text-[#16322D] text-[12px] uppercase tracking-[0.2em] shadow-xl hover:brightness-110 hover:-translate-y-1 active:scale-95 transition-all duration-300 animate-fade-in"
                             >
-                                <Icon name="upload-cloud" size={20} />
-                                Upload ny fil
+                                <Icon name="refresh-cw" size={18} />
+                                Upload nyt medie
                             </button>
                         )}
                     </div>
