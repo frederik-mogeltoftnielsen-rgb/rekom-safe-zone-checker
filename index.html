@@ -5,31 +5,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>REKOM Safe Zone Checker</title>
+<!-- Biblioteker hentet via CDN -->
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdn.jsdelivr.net/npm/lucide-static@0.321.0/font/lucide.min.css" rel="stylesheet">
-<style>
-body {
-background-color: #16322D;
-color: #E6BD71;
-margin: 0;
-font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
--webkit-font-smoothing: antialiased;
-}
-.safe-zone-overlay {
-pointer-events: none;
-position: absolute;
-inset: 0;
-}
-.animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+<style>
+    body { 
+        background-color: #16322D; 
+        color: #E6BD71; 
+        margin: 0; 
+        font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+    .safe-zone-overlay {
+        pointer-events: none;
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+    }
+    .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
     /* Scrollbar styling */
-    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #16322D; }
     ::-webkit-scrollbar-thumb { background: #E6BD71; border-radius: 10px; }
+
+    .device-frame {
+        box-shadow: 0 0 0 12px #0a1816, 0 30px 100px rgba(0,0,0,0.8);
+    }
 </style>
 
 
@@ -68,40 +75,40 @@ inset: 0;
         const zones = getSafeZones();
 
         return (
-            <div className="min-h-screen flex flex-col items-center">
+            <div className="min-h-screen flex flex-col">
                 
                 {/* Centreret Logo */}
-                <header className="w-full max-w-7xl px-8 pt-12 flex flex-col items-center">
+                <header className="w-full py-12 flex flex-col items-center">
                     <img 
                         src="logo.png" 
                         alt="REKOM Logo" 
-                        className="h-12 md:h-16 object-contain mb-6"
+                        className="h-12 md:h-14 object-contain mb-6"
                         onError={(e) => { e.target.style.display = 'none'; }}
                     />
-                    <div className="w-24 h-0.5 bg-[#E6BD71]/30 rounded-full"></div>
+                    <div className="w-24 h-0.5 bg-[#E6BD71]/20 rounded-full"></div>
                 </header>
 
-                {/* Main Layout Container */}
-                <main className="w-full max-w-7xl flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12 lg:gap-24 px-8 py-12 flex-grow">
+                {/* Main Content Area */}
+                <main className="flex-grow flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-24 px-6 max-w-7xl mx-auto w-full pb-20">
                     
-                    {/* Venstre side: Den visuelle checker */}
-                    <div className="flex flex-col items-center w-full max-w-[400px]">
-                        <h2 className="text-[10px] tracking-[0.5em] font-bold mb-6 opacity-40 uppercase">
+                    {/* Venstre Side: Preview Område */}
+                    <div className="flex flex-col items-center w-full max-w-[380px] animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                        <h2 className="text-[10px] tracking-[0.6em] font-black mb-8 opacity-40 uppercase text-center w-full">
                             Forhåndsvisning
                         </h2>
                         
                         <div 
-                            className={`relative w-full aspect-[9/16] rounded-[2.5rem] overflow-hidden transition-all duration-500 shadow-[0_30px_100px_rgba(0,0,0,0.6)] ${!file ? 'border-2 border-dashed border-[#E6BD71]/20 hover:bg-white/5 hover:border-[#E6BD71]/40 cursor-pointer' : 'bg-black'}`}
+                            className={`relative w-full aspect-[9/16] rounded-[2.5rem] overflow-hidden transition-all duration-500 device-frame ${!file ? 'border-2 border-dashed border-[#E6BD71]/20 hover:bg-white/5 hover:border-[#E6BD71]/40 cursor-pointer' : 'bg-black'}`}
                             onClick={() => !file && fileInputRef.current.click()}
                         >
                             {!file ? (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center group">
-                                    <div className="w-20 h-20 border border-[#E6BD71]/30 rounded-full flex items-center justify-center mb-8 transition-all group-hover:scale-110 group-hover:bg-[#E6BD71]/5">
-                                        <Icon name="upload" size={32} className="opacity-60" />
+                                    <div className="w-20 h-20 border border-[#E6BD71]/20 rounded-full flex items-center justify-center mb-8 transition-all group-hover:scale-110 group-hover:border-[#E6BD71]/60">
+                                        <Icon name="upload" size={32} className="opacity-40" />
                                     </div>
                                     <p className="text-white font-bold text-2xl mb-2 tracking-tight">Upload medie</p>
-                                    <p className="text-[#E6BD71]/50 text-[11px] font-bold uppercase tracking-widest">
-                                        Træk fil eller klik
+                                    <p className="text-[#E6BD71]/40 text-[10px] font-bold uppercase tracking-[0.2em]">
+                                        MP4, MOV, JPG, PNG
                                     </p>
                                 </div>
                             ) : (
@@ -117,47 +124,46 @@ inset: 0;
                                         <svg className="w-full h-full" viewBox="0 0 100 177.7" preserveAspectRatio="none">
                                             <defs>
                                                 <mask id="sz-mask">
-                                                    <rect width="100" height="177.7" fill="white" />
-                                                    {/* Hullet i midten (Safe Zone) */}
+                                                    <rect width="100%" height="177.7" fill="white" />
                                                     <rect 
                                                        x={parseFloat(zones.left)} 
                                                        y={parseFloat(zones.top)} 
                                                        width={100 - parseFloat(zones.left) - parseFloat(zones.right)}
-                                                       height={177.7 - parseFloat(zones.top) - (177.7 * parseFloat(zones.bottom) / 100)}
+                                                       height={177.7 - (177.7 * parseFloat(zones.top) / 100) - (177.7 * parseFloat(zones.bottom) / 100)}
                                                        fill="black" 
                                                     />
                                                 </mask>
                                             </defs>
-                                            <rect width="100" height="177.7" fill="#E6BD71" fillOpacity="0.45" mask="url(#sz-mask)" />
+                                            <rect width="100%" height="177.7" fill="#E6BD71" fillOpacity="0.45" mask="url(#sz-mask)" />
                                         </svg>
                                     </div>
 
                                     <button 
                                         onClick={(e) => { e.stopPropagation(); setFile(null); }}
-                                        className="absolute top-6 right-6 bg-black/50 backdrop-blur-xl p-2.5 rounded-full hover:bg-red-600 transition-all duration-300 group"
+                                        className="absolute top-6 right-6 z-20 bg-black/60 backdrop-blur-xl p-2.5 rounded-full hover:bg-red-600 transition-all duration-300"
                                     >
-                                        <Icon name="x" size={18} className="text-white group-hover:scale-110" />
+                                        <Icon name="x" size={16} className="text-white" />
                                     </button>
                                 </>
                             )}
                         </div>
                     </div>
 
-                    {/* Højre side: Styringspanel */}
-                    <div className="w-full max-w-[360px] flex flex-col gap-6 pt-0 lg:pt-10">
+                    {/* Højre Side: Sidebar Kort */}
+                    <div className="w-full max-w-[360px] flex flex-col gap-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                         
-                        {/* Platform-vælger boks */}
-                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-2xl">
-                            <h3 className="text-[10px] tracking-[0.2em] font-black mb-6 flex items-center gap-3 uppercase opacity-40">
+                        {/* Kort 1: Platform */}
+                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8">
+                            <h3 className="text-[10px] tracking-[0.2em] font-black mb-6 flex items-center gap-3 uppercase opacity-30">
                                 <Icon name="smartphone" size={14} /> Vælg Platform
                             </h3>
                             
-                            <div className="grid grid-cols-3 gap-2 bg-black/30 p-1.5 rounded-2xl mb-6">
+                            <div className="grid grid-cols-3 gap-2 bg-black/40 p-1.5 rounded-2xl mb-6">
                                 {['meta', 'tiktok', 'snapchat'].map((p) => (
                                     <button 
                                         key={p}
                                         onClick={() => setPlatform(p)}
-                                        className={`py-3 rounded-xl font-bold text-[10px] transition-all duration-300 uppercase tracking-wider ${platform === p ? 'bg-[#E6BD71] text-[#16322D] shadow-lg scale-[1.02]' : 'opacity-40 hover:opacity-100 hover:bg-white/5'}`}
+                                        className={`py-3 rounded-xl font-bold text-[10px] transition-all duration-300 uppercase tracking-widest ${platform === p ? 'bg-[#E6BD71] text-[#16322D] shadow-lg' : 'opacity-30 hover:opacity-100 hover:bg-white/5'}`}
                                     >
                                         {p}
                                     </button>
@@ -170,7 +176,7 @@ inset: 0;
                                         <button 
                                             key={sub}
                                             onClick={() => setSubFormat(sub)}
-                                            className={`flex-1 py-2.5 rounded-xl font-bold text-[9px] border transition-all duration-300 uppercase tracking-widest ${subFormat === sub ? 'border-[#E6BD71] text-[#E6BD71] bg-[#E6BD71]/10 shadow-[0_0_15px_rgba(230,189,113,0.1)]' : 'border-white/10 opacity-30 hover:opacity-100'}`}
+                                            className={`flex-1 py-2.5 rounded-xl font-bold text-[9px] border transition-all duration-300 uppercase tracking-widest ${subFormat === sub ? 'border-[#E6BD71] text-[#E6BD71] bg-[#E6BD71]/10' : 'border-white/10 opacity-30 hover:opacity-100'}`}
                                         >
                                             {sub}
                                         </button>
@@ -179,34 +185,34 @@ inset: 0;
                             )}
                         </div>
 
-                        {/* Info boks */}
-                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-2xl">
-                            <h3 className="text-[10px] tracking-[0.2em] font-black mb-4 flex items-center gap-3 uppercase opacity-40">
-                                <Icon name="help-circle" size={14} /> Guide
+                        {/* Kort 2: Info */}
+                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8">
+                            <h3 className="text-[10px] tracking-[0.2em] font-black mb-4 flex items-center gap-3 uppercase opacity-30">
+                                <Icon name="help-circle" size={14} /> Info
                             </h3>
-                            <p className="text-[12px] opacity-70 leading-relaxed font-medium italic">
-                                Hold dit budskab og dine vigtigste elementer (logo, tekst, CTA) i de klare områder for at sikre, at de ikke bliver dækket af platformens interface.
+                            <p className="text-[12px] opacity-60 leading-relaxed font-medium">
+                                Sørg for at placere tekst, logoer og vigtige elementer inden for de klare områder. De gyldne zoner viser hvor ikoner og tekst dækker dit indhold.
                             </p>
                         </div>
 
                         {file && (
                             <button
                                 onClick={() => fileInputRef.current?.click()}
-                                className="w-full py-6 rounded-[2rem] font-black flex items-center justify-center gap-4 bg-[#E6BD71] text-[#16322D] text-[12px] uppercase tracking-[0.2em] shadow-2xl hover:brightness-110 hover:-translate-y-1 active:scale-95 transition-all duration-300 animate-fade-in"
+                                className="w-full py-6 rounded-[2rem] font-black flex items-center justify-center gap-4 bg-[#E6BD71] text-[#16322D] text-[12px] uppercase tracking-[0.2em] shadow-xl hover:brightness-110 active:scale-95 transition-all duration-300"
                             >
-                                <Icon name="refresh-cw" size={18} />
-                                Upload nyt medie
+                                <Icon name="upload-cloud" size={20} />
+                                Upload ny fil
                             </button>
                         )}
                     </div>
                 </main>
 
                 {/* Footer */}
-                <footer className="w-full flex flex-col items-center gap-2 py-12 border-t border-white/5 mt-12">
-                    <p className="text-[14px] font-black tracking-[0.6em] uppercase opacity-100">
+                <footer className="w-full flex flex-col items-center gap-2 py-12 border-t border-white/5 mt-auto">
+                    <p className="text-[12px] font-black tracking-[0.5em] uppercase opacity-100">
                         REKOM Safe Zone Checker
                     </p>
-                    <p className="text-[10px] tracking-[0.3em] opacity-40 uppercase font-bold">
+                    <p className="text-[9px] tracking-[0.2em] opacity-30 uppercase font-bold">
                         Udviklet af Frederik Nielsen
                     </p>
                 </footer>
