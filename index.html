@@ -137,7 +137,7 @@
         return (
             <div className="min-h-screen flex flex-col items-center">
                 
-                {/* Header - Opdateret streg */}
+                {/* Header */}
                 <header className="w-full py-14 flex flex-col items-center">
                     <img 
                         src="logo.png" 
@@ -231,17 +231,17 @@
                     <div className="w-full max-w-[340px] flex flex-col gap-5 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                         
                         <div className="glass-card rounded-[2rem] p-6 shadow-lg text-[#E6BD71]">
-                            <h3 className="text-xl font-black mb-4 flex items-center gap-3">
+                            <h3 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
                                 <Icon name="help-circle" size={20} /> Hvad er safe zone?
                             </h3>
-                            <p className="text-[12px] leading-relaxed font-medium">
+                            <p className="text-[13px] leading-relaxed font-light">
                                 En safe zone på Meta, Snapchat og TikTok er det område i dit annonceformat, hvor tekst og vigtige elementer sikkert kan placeres uden at blive dækket af UI-elementer som brugernavn, CTA-knapper, likes eller captions.<br/><br/>
                                 For at sikre korrekt visning på stories og reels skal det uploadede content være i <strong>9:16-format</strong>.
                             </p>
                         </div>
 
                         <div className="glass-card rounded-[2rem] p-6 shadow-lg text-[#E6BD71]">
-                            <h3 className="text-xl font-black mb-4 flex items-center gap-3">
+                            <h3 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
                                 <Icon name="smartphone" size={20} /> Vælg Platform
                             </h3>
                             
@@ -273,7 +273,7 @@
                         </div>
 
                         <div className="glass-card rounded-[2rem] p-6 shadow-lg text-[#E6BD71]">
-                            <h3 className="text-xl font-black mb-4 flex items-center gap-3">
+                            <h3 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
                                 <Icon name="info" size={20} /> Sådan gør du
                             </h3>
                             <ul className="space-y-3">
@@ -283,7 +283,7 @@
                                     "Hold vigtigt indhold i de klare områder.",
                                     "Undgå grafik i de gyldne zoner."
                                 ].map((text, i) => (
-                                    <li key={i} className="flex gap-4 items-start text-[11px] leading-snug">
+                                    <li key={i} className="flex gap-4 items-start text-[13px] leading-snug font-light">
                                         <span className="w-5 h-5 rounded-full border border-[#E6BD71]/30 flex items-center justify-center text-[9px] font-black shrink-0 text-[#E6BD71] mt-0.5">
                                             {i + 1}
                                         </span>
@@ -305,7 +305,7 @@
                     </div>
                 </main>
 
-                {/* Footer - Renset for border og farveskift */}
+                {/* Footer */}
                 <footer className="w-full flex flex-col items-center gap-3 py-16 mt-auto text-center">
                     <p className="text-[14px] font-black tracking-[0.6em] uppercase text-[#E6BD71]">
                         REKOM Safe Zone Checker
