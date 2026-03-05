@@ -11,15 +11,15 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Google Font: Inter -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Google Font: Josefin Sans -->
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
     body { 
         background-color: #16322D; 
         color: #E6BD71; 
         margin: 0; 
-        font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+        font-family: 'Josefin Sans', ui-sans-serif, system-ui, sans-serif;
         -webkit-font-smoothing: antialiased;
     }
     .safe-zone-overlay {
@@ -137,7 +137,7 @@
         return (
             <div className="min-h-screen flex flex-col items-center">
                 
-                {/* Header */}
+                {/* Header - Opdateret streg */}
                 <header className="w-full py-14 flex flex-col items-center">
                     <img 
                         src="logo.png" 
@@ -166,7 +166,7 @@
                                     <div className="w-24 h-24 border-2 border-[#E6BD71]/40 rounded-full flex items-center justify-center mb-10 transition-all group-hover:scale-110 group-hover:border-[#E6BD71]/80 group-hover:bg-[#E6BD71]/10">
                                         <Icon name="upload" size={36} className="text-[#E6BD71]" />
                                     </div>
-                                    <p className="text-white font-black text-2xl mb-3 tracking-tight text-center">UPLOAD INDHOLD</p>
+                                    <p className="text-white font-black text-2xl mb-3 tracking-tight text-center uppercase">Upload indhold</p>
                                     <p className="text-[#E6BD71]/80 text-[11px] font-bold uppercase tracking-[0.3em] max-w-[200px] text-center">
                                         Træk fil herover eller klik for at vælge
                                     </p>
@@ -183,7 +183,7 @@
                                         <svg className="w-full h-full" viewBox="0 0 100 177.7" preserveAspectRatio="none">
                                             <defs>
                                                 <mask id="sz-mask">
-                                                    <rect width="100%" height="177.7" fill="white" />
+                                                    <rect width="100" height="177.7" fill="white" />
                                                     <rect 
                                                        x={zones.left} 
                                                        y={zones.top} 
@@ -202,7 +202,7 @@
                                                     )}
                                                 </mask>
                                             </defs>
-                                            <rect width="100%" height="177.7" fill="#E6BD71" fillOpacity="0.45" mask="url(#sz-mask)" />
+                                            <rect width="100" height="177.7" fill="#E6BD71" fillOpacity="0.45" mask="url(#sz-mask)" />
                                         </svg>
                                     </div>
 
@@ -230,18 +230,18 @@
                     {/* Styringspanel */}
                     <div className="w-full max-w-[340px] flex flex-col gap-5 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                         
-                        <div className="glass-card rounded-[2rem] p-6 shadow-lg">
-                            <h3 className="text-xl font-black mb-4 flex items-center gap-3 text-[#E6BD71]">
+                        <div className="glass-card rounded-[2rem] p-6 shadow-lg text-[#E6BD71]">
+                            <h3 className="text-xl font-black mb-4 flex items-center gap-3">
                                 <Icon name="help-circle" size={20} /> Hvad er safe zone?
                             </h3>
-                            <p className="text-[12px] text-[#E6BD71] leading-relaxed font-medium">
+                            <p className="text-[12px] leading-relaxed font-medium">
                                 En safe zone på Meta, Snapchat og TikTok er det område i dit annonceformat, hvor tekst og vigtige elementer sikkert kan placeres uden at blive dækket af UI-elementer som brugernavn, CTA-knapper, likes eller captions.<br/><br/>
                                 For at sikre korrekt visning på stories og reels skal det uploadede content være i <strong>9:16-format</strong>.
                             </p>
                         </div>
 
-                        <div className="glass-card rounded-[2rem] p-6 shadow-lg">
-                            <h3 className="text-xl font-black mb-4 flex items-center gap-3 text-[#E6BD71]">
+                        <div className="glass-card rounded-[2rem] p-6 shadow-lg text-[#E6BD71]">
+                            <h3 className="text-xl font-black mb-4 flex items-center gap-3">
                                 <Icon name="smartphone" size={20} /> Vælg Platform
                             </h3>
                             
@@ -272,8 +272,8 @@
                             )}
                         </div>
 
-                        <div className="glass-card rounded-[2rem] p-6 shadow-lg">
-                            <h3 className="text-xl font-black mb-4 flex items-center gap-3 text-[#E6BD71]">
+                        <div className="glass-card rounded-[2rem] p-6 shadow-lg text-[#E6BD71]">
+                            <h3 className="text-xl font-black mb-4 flex items-center gap-3">
                                 <Icon name="info" size={20} /> Sådan gør du
                             </h3>
                             <ul className="space-y-3">
@@ -283,7 +283,7 @@
                                     "Hold vigtigt indhold i de klare områder.",
                                     "Undgå grafik i de gyldne zoner."
                                 ].map((text, i) => (
-                                    <li key={i} className="flex gap-4 items-start text-[11px] text-[#E6BD71] leading-snug">
+                                    <li key={i} className="flex gap-4 items-start text-[11px] leading-snug">
                                         <span className="w-5 h-5 rounded-full border border-[#E6BD71]/30 flex items-center justify-center text-[9px] font-black shrink-0 text-[#E6BD71] mt-0.5">
                                             {i + 1}
                                         </span>
@@ -305,8 +305,8 @@
                     </div>
                 </main>
 
-                {/* Footer - Ingen baggrundsfarve (ensartet look) */}
-                <footer className="w-full flex flex-col items-center gap-3 py-16 border-t border-white/5 mt-auto text-center">
+                {/* Footer - Renset for border og farveskift */}
+                <footer className="w-full flex flex-col items-center gap-3 py-16 mt-auto text-center">
                     <p className="text-[14px] font-black tracking-[0.6em] uppercase text-[#E6BD71]">
                         REKOM Safe Zone Checker
                     </p>
