@@ -29,14 +29,19 @@
     .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* Scrollbar styling */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #16322D; }
     ::-webkit-scrollbar-thumb { background: #E6BD71; border-radius: 10px; }
 
     .device-frame {
-        box-shadow: 0 0 0 12px #0a1816, 0 30px 100px rgba(0,0,0,0.8);
+        box-shadow: 0 0 0 12px #0a1816, 0 40px 120px rgba(0,0,0,0.9);
         background: #000;
+    }
+    
+    .glass-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(230, 189, 113, 0.15);
+        backdrop-filter: blur(10px);
     }
 </style>
 
@@ -76,39 +81,39 @@
         const zones = getSafeZones();
 
         return (
-            <div className="min-h-screen flex flex-col">
+            <div className="min-h-screen flex flex-col items-center">
                 
-                {/* Header */}
-                <header className="w-full py-12 flex flex-col items-center">
+                {/* Header med Tykkere Streg */}
+                <header className="w-full py-14 flex flex-col items-center">
                     <img 
                         src="logo.png" 
                         alt="REKOM Logo" 
-                        className="h-12 md:h-14 object-contain mb-6"
+                        className="h-12 md:h-16 object-contain mb-6"
                         onError={(e) => { e.target.style.display = 'none'; }}
                     />
-                    <div className="w-24 h-0.5 bg-[#E6BD71]/20 rounded-full"></div>
+                    <div className="w-28 h-1.5 bg-[#E6BD71] rounded-full shadow-[0_0_15px_rgba(230,189,113,0.3)]"></div>
                 </header>
 
-                {/* Main Content Area */}
-                <main className="flex-grow flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12 lg:gap-24 px-6 max-w-7xl mx-auto w-full pb-20">
+                {/* Main Container */}
+                <main className="flex-grow flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12 lg:gap-24 px-6 max-w-7xl mx-auto w-full pb-20 mt-4">
                     
-                    {/* Venstre Side: Preview */}
-                    <div className="flex flex-col items-center w-full max-w-[380px] animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                        <h2 className="text-[10px] tracking-[0.6em] font-black mb-8 opacity-40 uppercase text-center w-full">
+                    {/* Preview Område */}
+                    <div className="flex flex-col items-center w-full max-w-[390px] animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                        <h2 className="text-[11px] tracking-[0.7em] font-black mb-10 opacity-50 uppercase text-center w-full">
                             Forhåndsvisning
                         </h2>
                         
                         <div 
-                            className={`relative w-full aspect-[9/16] rounded-[2.5rem] overflow-hidden transition-all duration-500 device-frame ${!file ? 'border-2 border-dashed border-[#E6BD71]/20 hover:bg-white/5 hover:border-[#E6BD71]/40 cursor-pointer' : ''}`}
+                            className={`relative w-full aspect-[9/16] rounded-[2.5rem] overflow-hidden transition-all duration-500 device-frame ${!file ? 'border-2 border-dashed border-[#E6BD71]/30 hover:bg-white/5 cursor-pointer' : ''}`}
                             onClick={() => !file && fileInputRef.current.click()}
                         >
                             {!file ? (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center group">
-                                    <div className="w-20 h-20 border border-[#E6BD71]/20 rounded-full flex items-center justify-center mb-8 transition-all group-hover:scale-110 group-hover:border-[#E6BD71]/60">
-                                        <Icon name="upload" size={32} className="opacity-40" />
+                                    <div className="w-24 h-24 border-2 border-[#E6BD71]/20 rounded-full flex items-center justify-center mb-10 transition-all group-hover:scale-110 group-hover:border-[#E6BD71]/70 group-hover:bg-[#E6BD71]/5">
+                                        <Icon name="upload" size={36} className="text-[#E6BD71]" />
                                     </div>
-                                    <p className="text-white font-bold text-2xl mb-2 tracking-tight">Upload medie</p>
-                                    <p className="text-[#E6BD71]/40 text-[10px] font-bold uppercase tracking-[0.2em]">
+                                    <p className="text-white font-black text-2xl mb-3 tracking-tight">Upload medie</p>
+                                    <p className="text-[#E6BD71]/40 text-[11px] font-bold uppercase tracking-[0.3em]">
                                         MP4, MOV, JPG, PNG
                                     </p>
                                 </div>
@@ -120,13 +125,11 @@
                                         <img src={file} className="w-full h-full object-cover" alt="Preview" />
                                     )}
 
-                                    {/* SVG Maskering */}
                                     <div className="safe-zone-overlay">
                                         <svg className="w-full h-full" viewBox="0 0 100 177.7" preserveAspectRatio="none">
                                             <defs>
                                                 <mask id="sz-mask">
                                                     <rect width="100" height="177.7" fill="white" />
-                                                    {/* Hullet (Safe Zone) */}
                                                     <rect 
                                                        x={zones.left} 
                                                        y={zones.top} 
@@ -134,7 +137,6 @@
                                                        height={177.7 - zones.top - (177.7 * zones.bottom / 100)}
                                                        fill="black" 
                                                     />
-                                                    {/* Tilføj notch tilbage til masken (gør det guld igen) */}
                                                     {zones.notch && (
                                                         <rect 
                                                           x={100 - zones.notchW} 
@@ -152,38 +154,40 @@
 
                                     <button 
                                         onClick={(e) => { e.stopPropagation(); setFile(null); }}
-                                        className="absolute top-6 right-6 z-20 bg-black/60 backdrop-blur-xl p-2.5 rounded-full hover:bg-red-600 transition-all duration-300"
+                                        className="absolute top-8 right-8 z-30 bg-black/70 backdrop-blur-2xl p-3 rounded-full hover:bg-red-600 transition-all duration-300 shadow-xl"
                                     >
-                                        <Icon name="x" size={16} className="text-white" />
+                                        <Icon name="x" size={18} className="text-white" />
                                     </button>
                                 </>
                             )}
                         </div>
                     </div>
 
-                    {/* Højre Side: Styringspanel */}
-                    <div className="w-full max-w-[360px] flex flex-col gap-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    {/* Styringspanel */}
+                    <div className="w-full max-w-[370px] flex flex-col gap-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                         
-                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-sm">
-                            <h3 className="text-[10px] tracking-[0.2em] font-black mb-4 flex items-center gap-3 uppercase opacity-30">
-                                <Icon name="help-circle" size={14} /> Hvad er safe zone?
+                        {/* Hvad er safe zone? */}
+                        <div className="glass-card rounded-[2.5rem] p-9 shadow-xl">
+                            <h3 className="text-2xl font-black mb-5 flex items-center gap-4 text-[#E6BD71]">
+                                <Icon name="help-circle" size={24} /> Hvad er safe zone?
                             </h3>
-                            <p className="text-[12px] opacity-70 leading-relaxed font-medium">
-                                En safe zone er det område, hvor dit indhold sikkert kan ses uden at blive dækket af knapper, brugernavne eller captions.
+                            <p className="text-[13px] text-white/70 leading-relaxed font-medium">
+                                En safe zone er det kritiske område, hvor dit vigtigste indhold sikkert kan ses uden at blive dækket af platformens interface-elementer.
                             </p>
                         </div>
 
-                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-sm">
-                            <h3 className="text-[10px] tracking-[0.2em] font-black mb-6 flex items-center gap-3 uppercase opacity-30">
-                                <Icon name="smartphone" size={14} /> Vælg Platform
+                        {/* Vælg Platform */}
+                        <div className="glass-card rounded-[2.5rem] p-9 shadow-xl">
+                            <h3 className="text-2xl font-black mb-8 flex items-center gap-4 text-[#E6BD71]">
+                                <Icon name="smartphone" size={24} /> Vælg Platform
                             </h3>
                             
-                            <div className="grid grid-cols-3 gap-2 bg-black/40 p-1.5 rounded-2xl mb-6">
+                            <div className="grid grid-cols-3 gap-2.5 bg-black/40 p-2 rounded-2xl mb-8">
                                 {['meta', 'tiktok', 'snapchat'].map((p) => (
                                     <button 
                                         key={p}
                                         onClick={() => setPlatform(p)}
-                                        className={`py-3 rounded-xl font-bold text-[10px] transition-all duration-300 uppercase tracking-widest ${platform === p ? 'bg-[#E6BD71] text-[#16322D] shadow-lg' : 'opacity-30 hover:opacity-100'}`}
+                                        className={`py-3.5 rounded-xl font-black text-[11px] transition-all duration-300 uppercase tracking-widest ${platform === p ? 'bg-[#E6BD71] text-[#16322D] shadow-xl scale-[1.03]' : 'opacity-40 hover:opacity-100'}`}
                                     >
                                         {p}
                                     </button>
@@ -191,12 +195,12 @@
                             </div>
 
                             {platform === 'meta' && (
-                                <div className="flex gap-2 animate-fade-in">
+                                <div className="flex gap-3 animate-fade-in">
                                     {['reels', 'stories'].map(sub => (
                                         <button 
                                             key={sub}
                                             onClick={() => setSubFormat(sub)}
-                                            className={`flex-1 py-2.5 rounded-xl font-bold text-[9px] border transition-all duration-300 uppercase tracking-widest ${subFormat === sub ? 'border-[#E6BD71] text-[#E6BD71] bg-[#E6BD71]/10' : 'border-white/10 opacity-30 hover:opacity-100'}`}
+                                            className={`flex-1 py-3 rounded-xl font-bold text-[10px] border-2 transition-all duration-300 uppercase tracking-widest ${subFormat === sub ? 'border-[#E6BD71] text-[#E6BD71] bg-[#E6BD71]/10 shadow-[0_0_20px_rgba(230,189,113,0.15)]' : 'border-white/5 opacity-30 hover:opacity-100 hover:border-white/20'}`}
                                         >
                                             {sub}
                                         </button>
@@ -205,19 +209,20 @@
                             )}
                         </div>
 
-                        <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-sm">
-                            <h3 className="text-[10px] tracking-[0.2em] font-black mb-5 flex items-center gap-3 uppercase opacity-30">
-                                <Icon name="info" size={14} /> Sådan gør du
+                        {/* Sådan gør du */}
+                        <div className="glass-card rounded-[2.5rem] p-9 shadow-xl">
+                            <h3 className="text-2xl font-black mb-6 flex items-center gap-4 text-[#E6BD71]">
+                                <Icon name="info" size={24} /> Sådan gør du
                             </h3>
-                            <ul className="space-y-4">
+                            <ul className="space-y-5">
                                 {[
                                     "Upload dit medie (MP4, JPG, PNG).",
                                     "Vælg din ønskede platform.",
                                     "Hold vigtigt indhold i de klare områder.",
                                     "Undgå grafik i de gyldne zoner."
                                 ].map((text, i) => (
-                                    <li key={i} className="flex gap-4 items-start text-[11px] opacity-60 leading-snug">
-                                        <span className="w-5 h-5 rounded-full border border-[#E6BD71]/20 flex items-center justify-center text-[9px] font-black shrink-0 mt-0.5">
+                                    <li key={i} className="flex gap-5 items-start text-[12px] text-white/60 leading-snug">
+                                        <span className="w-6 h-6 rounded-full border-2 border-[#E6BD71]/30 flex items-center justify-center text-[10px] font-black shrink-0 text-[#E6BD71] mt-0.5">
                                             {i + 1}
                                         </span>
                                         {text}
@@ -229,21 +234,22 @@
                         {file && (
                             <button
                                 onClick={() => fileInputRef.current?.click()}
-                                className="w-full py-6 rounded-[2rem] font-black flex items-center justify-center gap-4 bg-[#E6BD71] text-[#16322D] text-[12px] uppercase tracking-[0.2em] shadow-xl hover:brightness-110 active:scale-95 transition-all duration-300 animate-fade-in"
+                                className="w-full py-7 rounded-[2.5rem] font-black flex items-center justify-center gap-5 bg-[#E6BD71] text-[#16322D] text-[13px] uppercase tracking-[0.3em] shadow-[0_20px_50px_rgba(230,189,113,0.2)] hover:brightness-110 hover:-translate-y-1 active:scale-95 transition-all duration-300 animate-fade-in"
                             >
-                                <Icon name="refresh-cw" size={18} />
+                                <Icon name="refresh-cw" size={22} />
                                 Upload ny fil
                             </button>
                         )}
                     </div>
                 </main>
 
-                <footer className="w-full flex flex-col items-center gap-2 py-12 border-t border-white/5 mt-auto">
-                    <p className="text-[12px] font-black tracking-[0.5em] uppercase opacity-100 text-center">
+                {/* Footer - Tydeligere tekst */}
+                <footer className="w-full flex flex-col items-center gap-3 py-16 border-t border-white/5 mt-auto bg-black/20">
+                    <p className="text-[14px] font-black tracking-[0.6em] uppercase text-[#E6BD71]">
                         REKOM Safe Zone Checker
                     </p>
-                    <p className="text-[9px] tracking-[0.2em] opacity-30 uppercase font-bold text-center">
-                        Udviklet af Frederik Nielsen
+                    <p className="text-[12px] tracking-[0.2em] font-bold text-white uppercase opacity-100">
+                        Udviklet af: Frederik Nielsen
                     </p>
                 </footer>
 
