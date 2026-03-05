@@ -112,7 +112,6 @@
                 const img = new Image();
                 img.onload = () => {
                     const ratio = img.width / img.height;
-                    // 9/16 er ca. 0.5625. Vi tillader en lille margin
                     setIs916(Math.abs(ratio - 0.5625) < 0.05);
                 };
                 img.src = url;
@@ -150,10 +149,10 @@
                 </header>
 
                 {/* Main Container */}
-                <main className="flex-grow flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12 lg:gap-24 px-6 max-w-7xl mx-auto w-full pb-20 mt-4">
+                <main className="flex-grow flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12 lg:gap-16 px-6 max-w-7xl mx-auto w-full pb-20 mt-4">
                     
                     {/* Preview Område */}
-                    <div className="flex flex-col items-center w-full max-w-[390px] animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                    <div className="flex flex-col items-center w-full max-w-[360px] animate-fade-in" style={{ animationDelay: '0.1s' }}>
                         <h2 className="text-[11px] tracking-[0.7em] font-black mb-10 opacity-50 uppercase text-center w-full">
                             Forhåndsvisning
                         </h2>
@@ -228,30 +227,30 @@
                         )}
                     </div>
 
-                    {/* Styringspanel */}
-                    <div className="w-full max-w-[370px] flex flex-col gap-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    {/* Styringspanel (Mindre bredde og mere kompakte bokse) */}
+                    <div className="w-full max-w-[340px] flex flex-col gap-5 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                         
-                        <div className="glass-card rounded-[2.5rem] p-9 shadow-xl">
-                            <h3 className="text-2xl font-black mb-5 flex items-center gap-4 text-[#E6BD71]">
-                                <Icon name="help-circle" size={24} /> Hvad er safe zone?
+                        <div className="glass-card rounded-[2rem] p-6 shadow-lg">
+                            <h3 className="text-xl font-black mb-4 flex items-center gap-3 text-[#E6BD71]">
+                                <Icon name="help-circle" size={20} /> Hvad er safe zone?
                             </h3>
-                            <p className="text-[13px] text-white/70 leading-relaxed font-medium">
+                            <p className="text-[12px] text-white/70 leading-relaxed font-medium">
                                 En safe zone på Meta, Snapchat og TikTok er det område i dit annonceformat, hvor tekst og vigtige elementer sikkert kan placeres uden at blive dækket af UI-elementer som brugernavn, CTA-knapper, likes eller captions.<br/><br/>
-                                For at sikre korrekt visning på stories og reels skal det uploadede content være i <strong>9:16-format</strong>, så det fylder hele skærmen og overholder platformenes standard.
+                                For at sikre korrekt visning på stories og reels skal det uploadede content være i <strong>9:16-format</strong>.
                             </p>
                         </div>
 
-                        <div className="glass-card rounded-[2.5rem] p-9 shadow-xl">
-                            <h3 className="text-2xl font-black mb-8 flex items-center gap-4 text-[#E6BD71]">
-                                <Icon name="smartphone" size={24} /> Vælg Platform
+                        <div className="glass-card rounded-[2rem] p-6 shadow-lg">
+                            <h3 className="text-xl font-black mb-4 flex items-center gap-3 text-[#E6BD71]">
+                                <Icon name="smartphone" size={20} /> Vælg Platform
                             </h3>
                             
-                            <div className="grid grid-cols-3 gap-2.5 bg-black/40 p-2 rounded-2xl mb-8">
+                            <div className="grid grid-cols-3 gap-2 bg-black/40 p-1.5 rounded-xl mb-4">
                                 {['meta', 'tiktok', 'snapchat'].map((p) => (
                                     <button 
                                         key={p}
                                         onClick={() => setPlatform(p)}
-                                        className={`py-3.5 rounded-xl font-black text-[11px] transition-all duration-300 uppercase tracking-widest ${platform === p ? 'bg-[#E6BD71] text-[#16322D] shadow-xl scale-[1.03]' : 'opacity-40 hover:opacity-100'}`}
+                                        className={`py-2.5 rounded-lg font-black text-[10px] transition-all duration-300 uppercase tracking-widest ${platform === p ? 'bg-[#E6BD71] text-[#16322D] shadow-md scale-[1.02]' : 'opacity-40 hover:opacity-100'}`}
                                     >
                                         {p}
                                     </button>
@@ -259,12 +258,12 @@
                             </div>
 
                             {platform === 'meta' && (
-                                <div className="flex gap-3 animate-fade-in">
+                                <div className="flex gap-2 animate-fade-in">
                                     {['reels', 'stories'].map(sub => (
                                         <button 
                                             key={sub}
                                             onClick={() => setSubFormat(sub)}
-                                            className={`flex-1 py-3 rounded-xl font-bold text-[10px] border-2 transition-all duration-300 uppercase tracking-widest ${subFormat === sub ? 'border-[#E6BD71] text-[#E6BD71] bg-[#E6BD71]/10 shadow-[0_0_20px_rgba(230,189,113,0.15)]' : 'border-white/5 opacity-30 hover:opacity-100 hover:border-white/20'}`}
+                                            className={`flex-1 py-2 rounded-lg font-bold text-[9px] border transition-all duration-300 uppercase tracking-widest ${subFormat === sub ? 'border-[#E6BD71] text-[#E6BD71] bg-[#E6BD71]/10 shadow-[0_0_15px_rgba(230,189,113,0.1)]' : 'border-white/5 opacity-30 hover:opacity-100 hover:border-white/20'}`}
                                         >
                                             {sub}
                                         </button>
@@ -273,19 +272,19 @@
                             )}
                         </div>
 
-                        <div className="glass-card rounded-[2.5rem] p-9 shadow-xl">
-                            <h3 className="text-2xl font-black mb-6 flex items-center gap-4 text-[#E6BD71]">
-                                <Icon name="info" size={24} /> Sådan gør du
+                        <div className="glass-card rounded-[2rem] p-6 shadow-lg">
+                            <h3 className="text-xl font-black mb-4 flex items-center gap-3 text-[#E6BD71]">
+                                <Icon name="info" size={20} /> Sådan gør du
                             </h3>
-                            <ul className="space-y-5">
+                            <ul className="space-y-3">
                                 {[
                                     "Upload dit medie (MP4, JPG, PNG).",
                                     "Vælg din ønskede platform.",
                                     "Hold vigtigt indhold i de klare områder.",
                                     "Undgå grafik i de gyldne zoner."
                                 ].map((text, i) => (
-                                    <li key={i} className="flex gap-5 items-start text-[12px] text-white/60 leading-snug">
-                                        <span className="w-6 h-6 rounded-full border-2 border-[#E6BD71]/30 flex items-center justify-center text-[10px] font-black shrink-0 text-[#E6BD71] mt-0.5">
+                                    <li key={i} className="flex gap-4 items-start text-[11px] text-white/60 leading-snug">
+                                        <span className="w-5 h-5 rounded-full border border-[#E6BD71]/30 flex items-center justify-center text-[9px] font-black shrink-0 text-[#E6BD71] mt-0.5">
                                             {i + 1}
                                         </span>
                                         {text}
@@ -297,9 +296,9 @@
                         {file && (
                             <button
                                 onClick={() => fileInputRef.current?.click()}
-                                className="w-full py-7 rounded-[2.5rem] font-black flex items-center justify-center gap-5 bg-[#E6BD71] text-[#16322D] text-[13px] uppercase tracking-[0.3em] shadow-[0_20px_50px_rgba(230,189,113,0.2)] hover:brightness-110 hover:-translate-y-1 active:scale-95 transition-all duration-300 animate-fade-in"
+                                className="w-full py-5 rounded-[2rem] font-black flex items-center justify-center gap-4 bg-[#E6BD71] text-[#16322D] text-[12px] uppercase tracking-[0.2em] shadow-lg hover:brightness-110 active:scale-95 transition-all duration-300 animate-fade-in"
                             >
-                                <Icon name="refresh-cw" size={22} />
+                                <Icon name="refresh-cw" size={18} />
                                 Upload ny fil
                             </button>
                         )}
