@@ -36,6 +36,7 @@
 
     .device-frame {
         box-shadow: 0 0 0 12px #0a1816, 0 30px 100px rgba(0,0,0,0.8);
+        background: #000;
     }
 </style>
 
@@ -66,10 +67,10 @@
         };
 
         const getSafeZones = () => {
-            if (platform === 'tiktok') return { top: '5.6%', bottom: '18%', left: '6%', right: '12%', notch: false };
-            if (platform === 'snapchat') return { top: '10%', bottom: '35%', left: '6%', right: '6%', notch: true, notchH: '12%', notchW: '18%' };
-            if (subFormat === 'reels') return { top: '14%', bottom: '25%', left: '6%', right: '6%', notch: true, notchH: '6%', notchW: '22%' };
-            return { top: '14%', bottom: '20%', left: '6%', right: '6%', notch: false };
+            if (platform === 'tiktok') return { top: 5.6, bottom: 18, left: 6, right: 12, notch: false };
+            if (platform === 'snapchat') return { top: 10, bottom: 35, left: 6, right: 6, notch: true, notchH: 12, notchW: 18 };
+            if (subFormat === 'reels') return { top: 14, bottom: 25, left: 6, right: 6, notch: true, notchH: 6, notchW: 22 };
+            return { top: 14, bottom: 20, left: 6, right: 6, notch: false };
         };
 
         const zones = getSafeZones();
@@ -77,7 +78,7 @@
         return (
             <div className="min-h-screen flex flex-col">
                 
-                {/* Centreret Logo */}
+                {/* Header */}
                 <header className="w-full py-12 flex flex-col items-center">
                     <img 
                         src="logo.png" 
@@ -91,14 +92,14 @@
                 {/* Main Content Area */}
                 <main className="flex-grow flex flex-col lg:flex-row items-center lg:items-start justify-center gap-12 lg:gap-24 px-6 max-w-7xl mx-auto w-full pb-20">
                     
-                    {/* Venstre Side: Preview Område */}
+                    {/* Venstre Side: Preview */}
                     <div className="flex flex-col items-center w-full max-w-[380px] animate-fade-in" style={{ animationDelay: '0.1s' }}>
                         <h2 className="text-[10px] tracking-[0.6em] font-black mb-8 opacity-40 uppercase text-center w-full">
                             Forhåndsvisning
                         </h2>
                         
                         <div 
-                            className={`relative w-full aspect-[9/16] rounded-[2.5rem] overflow-hidden transition-all duration-500 device-frame ${!file ? 'border-2 border-dashed border-[#E6BD71]/20 hover:bg-white/5 hover:border-[#E6BD71]/40 cursor-pointer' : 'bg-black'}`}
+                            className={`relative w-full aspect-[9/16] rounded-[2.5rem] overflow-hidden transition-all duration-500 device-frame ${!file ? 'border-2 border-dashed border-[#E6BD71]/20 hover:bg-white/5 hover:border-[#E6BD71]/40 cursor-pointer' : ''}`}
                             onClick={() => !file && fileInputRef.current.click()}
                         >
                             {!file ? (
@@ -119,22 +120,33 @@
                                         <img src={file} className="w-full h-full object-cover" alt="Preview" />
                                     )}
 
-                                    {/* Det gyldne Safe Zone Overlay */}
+                                    {/* SVG Maskering */}
                                     <div className="safe-zone-overlay">
                                         <svg className="w-full h-full" viewBox="0 0 100 177.7" preserveAspectRatio="none">
                                             <defs>
                                                 <mask id="sz-mask">
-                                                    <rect width="100%" height="177.7" fill="white" />
+                                                    <rect width="100" height="177.7" fill="white" />
+                                                    {/* Hullet (Safe Zone) */}
                                                     <rect 
-                                                       x={parseFloat(zones.left)} 
-                                                       y={parseFloat(zones.top)} 
-                                                       width={100 - parseFloat(zones.left) - parseFloat(zones.right)}
-                                                       height={177.7 - (177.7 * parseFloat(zones.top) / 100) - (177.7 * parseFloat(zones.bottom) / 100)}
+                                                       x={zones.left} 
+                                                       y={zones.top} 
+                                                       width={100 - zones.left - zones.right}
+                                                       height={177.7 - zones.top - (177.7 * zones.bottom / 100)}
                                                        fill="black" 
                                                     />
+                                                    {/* Tilføj notch tilbage til masken (gør det guld igen) */}
+                                                    {zones.notch && (
+                                                        <rect 
+                                                          x={100 - zones.notchW} 
+                                                          y={177.7 - (177.7 * zones.bottom / 100) - zones.notchH} 
+                                                          width={zones.notchW} 
+                                                          height={zones.notchH} 
+                                                          fill="white" 
+                                                        />
+                                                    )}
                                                 </mask>
                                             </defs>
-                                            <rect width="100%" height="177.7" fill="#E6BD71" fillOpacity="0.45" mask="url(#sz-mask)" />
+                                            <rect width="100" height="177.7" fill="#E6BD71" fillOpacity="0.45" mask="url(#sz-mask)" />
                                         </svg>
                                     </div>
 
@@ -149,20 +161,18 @@
                         </div>
                     </div>
 
-                    {/* Højre Side: Sidebar Kort */}
+                    {/* Højre Side: Styringspanel */}
                     <div className="w-full max-w-[360px] flex flex-col gap-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                         
-                        {/* Kort 1: Hvad er safe zone? */}
                         <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-sm">
                             <h3 className="text-[10px] tracking-[0.2em] font-black mb-4 flex items-center gap-3 uppercase opacity-30">
                                 <Icon name="help-circle" size={14} /> Hvad er safe zone?
                             </h3>
                             <p className="text-[12px] opacity-70 leading-relaxed font-medium">
-                                En safe zone på Meta, Snapchat og TikTok er det område i dit annonceformat, hvor tekst og vigtige elementer sikkert kan placeres uden at blive dækket af UI-elementer som brugernavn, knapper eller captions.
+                                En safe zone er det område, hvor dit indhold sikkert kan ses uden at blive dækket af knapper, brugernavne eller captions.
                             </p>
                         </div>
 
-                        {/* Kort 2: Platform */}
                         <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-sm">
                             <h3 className="text-[10px] tracking-[0.2em] font-black mb-6 flex items-center gap-3 uppercase opacity-30">
                                 <Icon name="smartphone" size={14} /> Vælg Platform
@@ -173,7 +183,7 @@
                                     <button 
                                         key={p}
                                         onClick={() => setPlatform(p)}
-                                        className={`py-3 rounded-xl font-bold text-[10px] transition-all duration-300 uppercase tracking-widest ${platform === p ? 'bg-[#E6BD71] text-[#16322D] shadow-lg scale-[1.02]' : 'opacity-30 hover:opacity-100 hover:bg-white/5'}`}
+                                        className={`py-3 rounded-xl font-bold text-[10px] transition-all duration-300 uppercase tracking-widest ${platform === p ? 'bg-[#E6BD71] text-[#16322D] shadow-lg' : 'opacity-30 hover:opacity-100'}`}
                                     >
                                         {p}
                                     </button>
@@ -186,7 +196,7 @@
                                         <button 
                                             key={sub}
                                             onClick={() => setSubFormat(sub)}
-                                            className={`flex-1 py-2.5 rounded-xl font-bold text-[9px] border transition-all duration-300 uppercase tracking-widest ${subFormat === sub ? 'border-[#E6BD71] text-[#E6BD71] bg-[#E6BD71]/10 shadow-[0_0_15px_rgba(230,189,113,0.1)]' : 'border-white/10 opacity-30 hover:opacity-100'}`}
+                                            className={`flex-1 py-2.5 rounded-xl font-bold text-[9px] border transition-all duration-300 uppercase tracking-widest ${subFormat === sub ? 'border-[#E6BD71] text-[#E6BD71] bg-[#E6BD71]/10' : 'border-white/10 opacity-30 hover:opacity-100'}`}
                                         >
                                             {sub}
                                         </button>
@@ -195,17 +205,16 @@
                             )}
                         </div>
 
-                        {/* Kort 3: Sådan gør du */}
                         <div className="bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 shadow-sm">
                             <h3 className="text-[10px] tracking-[0.2em] font-black mb-5 flex items-center gap-3 uppercase opacity-30">
                                 <Icon name="info" size={14} /> Sådan gør du
                             </h3>
                             <ul className="space-y-4">
                                 {[
-                                    "Upload dit indhold (MP4, JPG, PNG).",
-                                    "Vælg det rigtige format for din platform.",
-                                    "Tjek guld-zonerne for UI-elementer.",
-                                    "Hold vigtigt indhold i de klare områder."
+                                    "Upload dit medie (MP4, JPG, PNG).",
+                                    "Vælg din ønskede platform.",
+                                    "Hold vigtigt indhold i de klare områder.",
+                                    "Undgå grafik i de gyldne zoner."
                                 ].map((text, i) => (
                                     <li key={i} className="flex gap-4 items-start text-[11px] opacity-60 leading-snug">
                                         <span className="w-5 h-5 rounded-full border border-[#E6BD71]/20 flex items-center justify-center text-[9px] font-black shrink-0 mt-0.5">
@@ -220,21 +229,20 @@
                         {file && (
                             <button
                                 onClick={() => fileInputRef.current?.click()}
-                                className="w-full py-6 rounded-[2rem] font-black flex items-center justify-center gap-4 bg-[#E6BD71] text-[#16322D] text-[12px] uppercase tracking-[0.2em] shadow-xl hover:brightness-110 hover:-translate-y-1 active:scale-95 transition-all duration-300 animate-fade-in"
+                                className="w-full py-6 rounded-[2rem] font-black flex items-center justify-center gap-4 bg-[#E6BD71] text-[#16322D] text-[12px] uppercase tracking-[0.2em] shadow-xl hover:brightness-110 active:scale-95 transition-all duration-300 animate-fade-in"
                             >
                                 <Icon name="refresh-cw" size={18} />
-                                Upload nyt medie
+                                Upload ny fil
                             </button>
                         )}
                     </div>
                 </main>
 
-                {/* Footer */}
                 <footer className="w-full flex flex-col items-center gap-2 py-12 border-t border-white/5 mt-auto">
-                    <p className="text-[12px] font-black tracking-[0.5em] uppercase opacity-100">
+                    <p className="text-[12px] font-black tracking-[0.5em] uppercase opacity-100 text-center">
                         REKOM Safe Zone Checker
                     </p>
-                    <p className="text-[9px] tracking-[0.2em] opacity-30 uppercase font-bold">
+                    <p className="text-[9px] tracking-[0.2em] opacity-30 uppercase font-bold text-center">
                         Udviklet af Frederik Nielsen
                     </p>
                 </footer>
